@@ -1,8 +1,0 @@
-# This file was automatically generated
-name: ra2024
-type: postgres
-options:
-  host: localhost
-  port: 5432
-  database: ra2024
-  schema: ra2024
