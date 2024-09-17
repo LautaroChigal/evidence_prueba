@@ -15,8 +15,3 @@ select * from matOferta
     series="sector"
     title="Matricula por oferta"
 />
-
-``` matricula_grado
-select cueanexo, nombre, oferta, sum(matricula) from matGrado
-group by cueanexo, nombre, oferta
-```
