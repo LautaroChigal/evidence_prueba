@@ -11,7 +11,7 @@ select * from matOferta
 <BarChart 
     data={matricula_oferta}
     x=oferta
-    y=matricula
+    y=sum
     series="sector"
     title="Matricula por oferta"
 />
