@@ -2,7 +2,7 @@
 title: Mas Pruebas RA
 ---
 
-# RA 2024
+## RA 2024
 
 ``` matricula_grado
 select cueanexo, nombre, oferta, sum(matricula) from matGrado
