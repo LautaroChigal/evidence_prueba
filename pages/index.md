@@ -2,9 +2,7 @@
 title: Relevamiento Anual
 ---
 
-<Details title='Sobre esta página'>
-  Esta página tiene como objetivo mantener todas las pruebas de visualización de datos que se hagan antes de lanzar la página oficial.
-</Details>
+Esta página tiene como objetivo mantener todas las pruebas de visualización de datos que se hagan antes de lanzar la página oficial.
 
 ## Resumen
 
@@ -90,27 +88,58 @@ group by 1
   name=oferta_anio
   data={ofertas_anio}
   value=oferta
-  title="Seleccione Ofertas"
-  multiple=true
+  title="Seleccione una Oferta"
   defaultValue="Común - Primaria de 7 años "
 />
 
 ```sql matricula_anio
 select oferta, año, sum(matricula) from matAnio
-where oferta in ${inputs.oferta_anio.value}
+where oferta = '${inputs.oferta_anio.value}'
 group by oferta, año
 ```
 
 <LineChart 
-    data={matricula_anio}
-    x=año
-    y=sum(matricula)
-    yFmt=num0
-    yScale=true
-    echartsOptions={{xAxis: {
-        type: 'category',
-        boundaryGap: false,
-      }
-    }}
-    series=oferta
+  data={matricula_anio}
+  x=año
+  y=sum(matricula)
+  yFmt=num0
+  yScale=true
+  echartsOptions={{xAxis: {
+      type: 'category',
+      boundaryGap: false,
+    }
+  }}
+  series=oferta
 />
+
+## Matricula Secundaria por Departamento
+
+Haga click en un Departamento para ver la matricula detallada en el cuadro debajo.
+
+```sql matricula_departamento
+select departamento, sum(mat_secundaria) from matDepartamento
+group by 1
+```
+
+<AreaMap 
+  data={matricula_departamento} 
+  areaCol=departamento
+  geoJsonUrl=https://raw.githubusercontent.com/mgaitan/departamentos_argentina/refs/heads/master/departamentos-misiones.json
+  geoId=departamento
+  value=sum(mat_secundaria)
+  borderWidth=2
+  height=600
+  name=mapaMisiones
+/>
+
+```sql departamento_seleccionado
+select cueanexo, nombre, sum(mat_secundaria) from matDepartamento
+where departamento = '${inputs.mapaMisiones.departamento}'
+group by cueanexo, nombre
+```
+
+<DataTable data={departamento_seleccionado}>
+  <Column id="cueanexo" fmt=id/>
+  <Column id="nombre"/>
+  <Column id="sum(mat_secundaria)" title="Matricula Total"/>  
+</DataTable>
