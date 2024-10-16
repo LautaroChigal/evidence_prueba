@@ -71,10 +71,10 @@ group by cueanexo, nombre
 order by cueanexo
 ```
 
-<DataTable data={matricula_completa}>
-  <Column id="cueanexo" fmt=id/>
-  <Column id="nombre"/>
-  <Column id="sum(matricula)" title="Matricula Total"/>  
+<DataTable data={matricula_completa} search=true totalRow=true rowShading=true>
+  <Column id="cueanexo" fmt=id totalAgg="Total Oferta" align=left/>
+  <Column id="nombre" align=left/>
+  <Column id="sum(matricula)" title="Matricula Total" align=right/>  
 </DataTable>
 
 ## Evolución de Matricula
@@ -112,12 +112,26 @@ group by oferta, año
   series=oferta
 />
 
-## Matricula Secundaria por Departamento
+## Matricula por Departamento
 
 Haga click en un Departamento para ver la matricula detallada en el cuadro debajo.
 
+```sql ofertas_mapa
+select oferta from matCompleta
+group by 1
+```
+
+<Dropdown
+  name=oferta_mapa
+  data={ofertas_mapa}
+  value=oferta
+  title="Seleccione una Oferta"
+  defaultValue="Común - Primaria de 7 años "
+/>
+
 ```sql matricula_departamento
-select departamento, sum(mat_secundaria) from matDepartamento
+select departamento, sum(matricula) as matricula from matCompleta
+where oferta = '${inputs.oferta_mapa.value}'
 group by 1
 ```
 
@@ -126,20 +140,38 @@ group by 1
   areaCol=departamento
   geoJsonUrl=https://raw.githubusercontent.com/mgaitan/departamentos_argentina/refs/heads/master/departamentos-misiones.json
   geoId=departamento
-  value=sum(mat_secundaria)
+  value=matricula
   borderWidth=2
   height=600
   name=mapaMisiones
 />
 
-```sql departamento_seleccionado
-select cueanexo, nombre, sum(mat_secundaria) from matDepartamento
+```sql localidades
+select localidad from matCompleta
 where departamento = '${inputs.mapaMisiones.departamento}'
-group by cueanexo, nombre
+group by 1
 ```
 
-<DataTable data={departamento_seleccionado}>
-  <Column id="cueanexo" fmt=id/>
-  <Column id="nombre"/>
-  <Column id="sum(mat_secundaria)" title="Matricula Total"/>  
+<Dropdown
+  name=localidad_seleccionada
+  data={localidades}
+  value=localidad
+  multiple=true
+  title="Seleccione Localidades"
+/>
+
+```sql departamento_seleccionado
+select cueanexo, nombre, localidad, sum(matricula) as matricula from matCompleta
+where 
+  departamento = '${inputs.mapaMisiones.departamento}' and 
+  localidad in ${inputs.localidad_seleccionada.value} and
+  oferta = '${inputs.oferta_mapa.value}'
+group by cueanexo, nombre, localidad
+```
+
+<DataTable data={departamento_seleccionado} search=true totalRow=true rowShading=true emptyMessage="No hay datos para mostrar">
+  <Column id="cueanexo" fmt=id totalAgg="Total Escuelas" align=left/>
+  <Column id="nombre" align=left/>
+  <Column id="localidad" align=left/>
+  <Column id="matricula" title="Matricula" align=right/>  
 </DataTable>
