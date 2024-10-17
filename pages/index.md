@@ -181,7 +181,7 @@ group by cueanexo, nombre, localidad, ambito
 
 <DataTable data={departamento_seleccionado} search=true totalRow=true rowShading=true emptyMessage="No hay datos para mostrar">
   <Column id="cueanexo" fmt=id totalAgg="Total Escuelas" align=left/>
-  <Column id="nombre" totalAgg=nombre align=left/>
+  <Column id="nombre" align=left/>
   <Column id="localidad"  align=left/>
   <Column id="ambito"  align=left/>
   <Column id="matricula" title="Matricula" align=right/>  
