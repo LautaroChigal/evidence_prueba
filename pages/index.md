@@ -160,18 +160,29 @@ group by 1
   title="Seleccione Localidades"
 />
 
+```sql sectores
+select sector from matCompleta
+group by 1
+```
+
+<ButtonGroup data={sectores} name=sector_seleccionado value=sector display=buttons title="Seleccione un Sector" defaultValue="Estatal">
+  <ButtonGroupItem valueLabel="Ambos" value="Estatal','Privado"/>
+</ButtonGroup>
+
 ```sql departamento_seleccionado
-select cueanexo, nombre, localidad, sum(matricula) as matricula from matCompleta
+select cueanexo, nombre, localidad, ambito, sum(matricula) as matricula from matCompleta
 where 
   departamento = '${inputs.mapaMisiones.departamento}' and 
   localidad in ${inputs.localidad_seleccionada.value} and
-  oferta = '${inputs.oferta_mapa.value}'
-group by cueanexo, nombre, localidad
+  oferta = '${inputs.oferta_mapa.value}' and
+  sector in ('${inputs.sector_seleccionado}')
+group by cueanexo, nombre, localidad, ambito
 ```
 
 <DataTable data={departamento_seleccionado} search=true totalRow=true rowShading=true emptyMessage="No hay datos para mostrar">
   <Column id="cueanexo" fmt=id totalAgg="Total Escuelas" align=left/>
-  <Column id="nombre" align=left/>
-  <Column id="localidad" align=left/>
+  <Column id="nombre" totalAgg=nombre align=left/>
+  <Column id="localidad"  align=left/>
+  <Column id="ambito"  align=left/>
   <Column id="matricula" title="Matricula" align=right/>  
 </DataTable>
