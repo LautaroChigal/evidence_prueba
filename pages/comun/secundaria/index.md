@@ -4,6 +4,17 @@ queries:
    - secundaria: secundaria.sql
 ---
 
+```sql secundaria_hidden
+select *, '/comun/secundaria/' || cueanexo as link
+from ${secundaria}
+```
+
+{#each secundaria_hidden as row}
+
+<a href={row.link}/>
+
+{/each}
+
 Haga click en una escuela para ver mas detalles.
 
 ```sql departamentos
@@ -27,8 +38,8 @@ select distinct(sector) from matSecundaria
 </ButtonGroup>
 
 ```sql secundaria_with_link
-select *, '/comun/secundaria/' || cueanexo as link
-from ${secundaria}
+select *
+from ${secundaria_hidden}
 where departamento = '${inputs.dropdown_departamentos.value}' and sector in ('${inputs.sector_seleccionado}')
 ```
 
