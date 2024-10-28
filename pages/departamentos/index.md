@@ -4,6 +4,17 @@ queries:
    - departamentos: departamentos.sql
 ---
 
+```sql departamentos_hidden
+select *, '/departamentos/' || departamento as link
+from ${departamentos}
+```
+
+{#each departamentos_hidden as row}
+
+<a href={row.link}/>
+
+{/each}
+
 Haga click en el departamento para ver sus detalles
 
 
