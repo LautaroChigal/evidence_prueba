@@ -146,18 +146,18 @@ group by 1
   name=mapaMisiones
 />
 
-```sql localidades
-select localidad from matCompleta
+```sql municipios
+select municipio from matCompleta
 where departamento = '${inputs.mapaMisiones.departamento}'
 group by 1
 ```
 
 <Dropdown
-  name=localidad_seleccionada
-  data={localidades}
-  value=localidad
+  name=municipio_seleccionado
+  data={municipios}
+  value=municipio
   multiple=true
-  title="Seleccione Localidades"
+  title="Seleccione Municipios"
 />
 
 ```sql sectores
@@ -170,19 +170,19 @@ group by 1
 </ButtonGroup>
 
 ```sql departamento_seleccionado
-select cueanexo, nombre, localidad, ambito, sum(matricula) as matricula from matCompleta
+select cueanexo, nombre, municipio, ambito, sum(matricula) as matricula from matCompleta
 where 
   departamento = '${inputs.mapaMisiones.departamento}' and 
-  localidad in ${inputs.localidad_seleccionada.value} and
+  municipio in ${inputs.municipio_seleccionado.value} and
   oferta = '${inputs.oferta_mapa.value}' and
   sector in ('${inputs.sector_seleccionado}')
-group by cueanexo, nombre, localidad, ambito
+group by cueanexo, nombre, municipio, ambito
 ```
 
 <DataTable data={departamento_seleccionado} search=true totalRow=true rowShading=true emptyMessage="No hay datos para mostrar">
   <Column id="cueanexo" fmt=id totalAgg="Total Escuelas" align=left/>
   <Column id="nombre" align=left/>
-  <Column id="localidad"  align=left/>
-  <Column id="ambito"  align=left/>
+  <Column id="municipio" align=left/>
+  <Column id="ambito" align=left/>
   <Column id="matricula" title="Matricula" align=right/>  
 </DataTable>
