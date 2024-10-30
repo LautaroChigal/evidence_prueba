@@ -10,7 +10,22 @@ where cueanexo = '${params.cueanexo}'
 
 # <Value data={secundaria_filtered} column=nombre/> 
 
-<DataTable data={secundaria_filtered}/>
+<Details title="Ver Detalles">
+
+**Cueanexo:** _<Value data={secundaria_filtered} column=cueanexo/>_
+
+**Cuise:** _<Value data={secundaria_filtered} column=cuise/>_
+
+**Departamento:** _<Value data={secundaria_filtered} column=departamento/>_
+
+**Localidad:** _<Value data={secundaria_filtered} column=localidad/>_
+
+**Sector:** _<Value data={secundaria_filtered} column=sector/>_
+
+**Ambito:** _<Value data={secundaria_filtered} column=ambito/>_
+</Details>
+
+## Matricula y Repitentes Total
 
 ```sql matricula_repitentes
 select 'Matricula' as pie, matricula as count from matSecundaria
@@ -39,3 +54,35 @@ from ${matricula_repitentes}
       ]
    }
 }/>
+
+## Matricula y Repitentes por Grado
+
+```sql matricula_grado
+select grado, tipo_alumno, total from matGrado
+where cueanexo = '${params.cueanexo}' and oferta = 'Común - Secundaria Completa req. 7 años '
+```
+
+<BarChart 
+    data={matricula_grado}
+    x=grado
+    y=total
+    series=tipo_alumno
+    type=grouped
+    sort=false
+    showAllXAxisLabels=true
+/>
+
+## Egresados por Titulo
+
+```sql egresados
+select titulo, egresados from egresadosSecundaria
+where cueanexo = '${params.cueanexo}'
+```
+
+<BarChart 
+    data={egresados}
+    x=titulo
+    y=egresados
+    swapXY=true
+    sort=false
+/>

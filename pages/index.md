@@ -65,9 +65,9 @@ group by 1
 />
 
 ```sql matricula_completa
-select cueanexo, nombre, sum(matricula) from matricula
+select cueanexo, cuise, nombre, sum(matricula) from matricula
 where oferta = '${inputs.oferta_seleccionada.value}'
-group by cueanexo, nombre
+group by cueanexo, nombre, cuise
 order by cueanexo
 ```
 
@@ -170,13 +170,12 @@ group by 1
 </ButtonGroup>
 
 ```sql departamento_seleccionado
-select cueanexo, nombre, municipio, ambito, sum(matricula) as matricula from matCompleta
+select cueanexo, nombre, municipio, ambito, matricula from matCompleta
 where 
   departamento = '${inputs.mapaMisiones.departamento}' and 
   municipio in ${inputs.municipio_seleccionado.value} and
   oferta = '${inputs.oferta_mapa.value}' and
   sector in ('${inputs.sector_seleccionado}')
-group by cueanexo, nombre, municipio, ambito
 ```
 
 <DataTable data={departamento_seleccionado} search=true totalRow=true rowShading=true emptyMessage="No hay datos para mostrar">
