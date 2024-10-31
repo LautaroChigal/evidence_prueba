@@ -1,10 +1,14 @@
-.evidence/template
+.evidence
 .svelte-kit
 build
 node_modules
 .DS_Store
 static/data
 *.options.yaml
-.vscode/settings.json
+.vscode
 .env
 .evidence/meta
+egresados.sql
+matricula.sql
+municipios.sql
+primarias.sql
