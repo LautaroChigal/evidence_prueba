@@ -4,12 +4,49 @@ queries:
    - primaria: primaria.sql
 ---
 
-Click on an item to see more detail
-
-
-```sql primaria_with_link
+```sql primaria_hidden
 select *, '/comun/primaria/' || cueanexo as link
 from ${primaria}
 ```
 
-<DataTable data={primaria_with_link} link=link/>
+{#each primaria_hidden as row}
+
+<a href={row.link}/>
+
+{/each}
+
+Haga click en una escuela para ver mas detalles.
+
+```sql departamentos
+select distinct(departamento) from primarias
+```
+
+<Dropdown
+  name=dropdown_departamentos
+  data={departamentos}
+  value=departamento
+  title="Seleccione un Departamento"
+  defaultValue="CAPITAL"
+/>
+
+```sql sectores
+select distinct(sector) from primarias
+```
+
+<ButtonGroup data={sectores} name=sector_seleccionado value=sector display=buttons title="Seleccione un Sector" defaultValue="Estatal">
+  <ButtonGroupItem valueLabel="Ambos" value="Estatal','Privado"/>
+</ButtonGroup>
+
+```sql primaria_with_link
+select *
+from ${primaria_hidden}
+where departamento = '${inputs.dropdown_departamentos.value}' and sector in ('${inputs.sector_seleccionado}')
+```
+
+<DataTable data={primaria_with_link} link=link totalRow=true emptyMessage="No hay datos para mostrar" search=true>
+   <Column id="cueanexo" totalAgg="Cantidad de Escuelas" align=left/>
+   <Column id="cuise" align=left/>
+   <Column id="nombre" align=left/>
+   <Column id="municipio" align=left/>
+   <Column id="ambito" totalAgg=count align=left/>
+</DataTable>

@@ -23,6 +23,7 @@ where cueanexo = '${params.cueanexo}'
 **Sector:** _<Value data={secundaria_filtered} column=sector/>_
 
 **Ambito:** _<Value data={secundaria_filtered} column=ambito/>_
+
 </Details>
 
 ## Matricula y Repitentes Total

@@ -8,6 +8,8 @@ static/data
 .vscode
 .env
 .evidence/meta
+.github
+scripts
 egresados.sql
 matricula.sql
 municipios.sql
