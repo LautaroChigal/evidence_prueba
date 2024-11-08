@@ -14,3 +14,7 @@ egresados.sql
 matricula.sql
 municipios.sql
 primarias.sql
+alumnos por sexo.sql
+alumnos extranjeros.sql
+alumnos especial por discapacidad.sql
+alumnos con discapacidad.sql

@@ -50,3 +50,44 @@ where departamento = '${inputs.dropdown_departamentos.value}' and sector in ('${
    <Column id="municipio" align=left/>
    <Column id="ambito" totalAgg=count align=left/>
 </DataTable>
+
+## Alumnos Extranjeros
+
+```sql alumnos_extranjeros
+select origen, sum(total) as total from alumExtranjeros
+group by origen
+```
+
+<BarChart 
+    data={alumnos_extranjeros}
+    x=origen
+    y=total
+    swapXY=true
+/>
+
+```sql origenes
+select distinct(origen) from alumExtranjeros
+order by origen asc
+```
+
+<ButtonGroup
+  name=origen_seleccionado  
+  data={origenes}
+  value=origen
+  defaultValue="Paraguay"
+  title="Seleccione un origen"
+/>
+
+```sql escuelas_con_extranjeros
+select cueanexo, nombre, sector, ambito, sum(total) as total from alumExtranjeros
+where origen = '${inputs.origen_seleccionado}'
+group by cueanexo, nombre, sector, ambito
+```
+
+<DataTable data={escuelas_con_extranjeros} link=link totalRow=true emptyMessage="No hay datos para mostrar" search=true>
+   <Column id="cueanexo" totalAgg="Total de Alumnos Extranjeros" fmt=id align=left/>
+   <Column id="nombre" align=left/>
+   <Column id="sector" align=left/>
+   <Column id="ambito" align=left/>
+   <Column id="total" align=right/>
+</DataTable>
