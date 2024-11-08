@@ -15,7 +15,9 @@ from ${primaria}
 
 {/each}
 
-Haga click en una escuela para ver mas detalles.
+## Ver datos por escuela
+
+Haga click en una escuela en el siguiente cuadro para ver mas detalles.
 
 ```sql departamentos
 select distinct(departamento) from primarias
@@ -84,7 +86,7 @@ where origen = '${inputs.origen_seleccionado}'
 group by cueanexo, nombre, sector, ambito
 ```
 
-<DataTable data={escuelas_con_extranjeros} link=link totalRow=true emptyMessage="No hay datos para mostrar" search=true>
+<DataTable data={escuelas_con_extranjeros} totalRow=true emptyMessage="No hay datos para mostrar" search=true>
    <Column id="cueanexo" totalAgg="Total de Alumnos Extranjeros" fmt=id align=left/>
    <Column id="nombre" align=left/>
    <Column id="sector" align=left/>
